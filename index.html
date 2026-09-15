@@ -1,0 +1,2780 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elektron Jurnal</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Arial,sans-serif;
+    background:#020914;
+    color:#fff;
+    min-height:100vh;
+}
+
+/* LOGIN */
+
+#loginScreen{
+    position:fixed;
+    inset:0;
+    z-index:9999;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:
+    radial-gradient(circle at 20% 20%,#123d66,transparent 35%),
+    radial-gradient(circle at 80% 80%,#35206b,transparent 35%),
+    #020914;
+}
+
+.loginBox{
+    width:470px;
+    max-width:92%;
+    padding:45px;
+    border-radius:30px;
+    background:#0a1a2b;
+    border:1px solid #294e6b;
+    text-align:center;
+    box-shadow:0 30px 100px #000c;
+}
+
+.loginIcon{
+    width:95px;
+    height:95px;
+    margin:0 auto 20px;
+    border-radius:27px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:45px;
+    background:linear-gradient(135deg,#159cff,#765cff);
+}
+
+.loginBox h1{
+    font-size:30px;
+    margin-bottom:8px;
+}
+
+.loginBox p{
+    color:#8fa8bf;
+    margin-bottom:25px;
+}
+
+#password{
+    width:100%;
+    height:65px;
+    border:1px solid #315875;
+    border-radius:16px;
+    background:#061522;
+    color:#fff;
+    outline:none;
+    text-align:center;
+    font-size:30px;
+    letter-spacing:12px;
+}
+
+.loginButton{
+    width:100%;
+    height:60px;
+    margin-top:15px;
+    border:0;
+    border-radius:16px;
+    background:linear-gradient(135deg,#159cff,#765cff);
+    color:white;
+    font-weight:bold;
+    font-size:18px;
+    cursor:pointer;
+}
+
+.loginError{
+    height:25px;
+    margin-top:10px;
+    color:#ff647d;
+}
+
+
+/* APP */
+
+#app{
+    display:none;
+}
+
+header{
+    position:sticky;
+    top:0;
+    z-index:100;
+    background:#030c17ee;
+    border-bottom:1px solid #213f58;
+    backdrop-filter:blur(15px);
+}
+
+.header{
+    width:94%;
+    max-width:1500px;
+    min-height:78px;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.logo{
+    width:52px;
+    height:52px;
+    border-radius:16px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:27px;
+    background:linear-gradient(135deg,#159cff,#765cff);
+}
+
+.brand b{
+    font-size:18px;
+}
+
+.brand small{
+    display:block;
+    color:#8fa8bf;
+    margin-top:4px;
+}
+
+.clock{
+    text-align:center;
+}
+
+.clock b{
+    font-size:25px;
+}
+
+.clock div{
+    color:#9eb3c7;
+    font-size:13px;
+    margin-top:3px;
+    text-transform:capitalize;
+}
+
+.logout{
+    padding:11px 16px;
+    border:1px solid #294963;
+    border-radius:11px;
+    background:#0a1b2c;
+    color:white;
+    cursor:pointer;
+}
+
+
+/* MAIN */
+
+.container{
+    width:94%;
+    max-width:1500px;
+    margin:25px auto 70px;
+}
+
+.hero{
+    padding:32px;
+    margin-bottom:20px;
+    border:1px solid #244963;
+    border-radius:25px;
+    background:linear-gradient(135deg,#102e4b,#091b2e);
+}
+
+.hero h1{
+    font-size:35px;
+    margin-bottom:10px;
+}
+
+.hero p{
+    color:#91a9bf;
+}
+
+.teacher{
+    display:inline-block;
+    margin-top:18px;
+    padding:13px 17px;
+    border-radius:12px;
+    border:1px solid #285170;
+    background:#159cff12;
+}
+
+
+/* STATS */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.stat{
+    padding:20px;
+    border:1px solid #203f58;
+    border-radius:20px;
+    background:#0b1a2b;
+}
+
+.statIcon{
+    font-size:25px;
+}
+
+.stat strong{
+    display:block;
+    font-size:28px;
+    margin-top:6px;
+}
+
+.stat span{
+    color:#91a9bf;
+    font-size:13px;
+}
+
+
+/* PANELS */
+
+.panel{
+    padding:22px;
+    margin-bottom:20px;
+    border:1px solid #203f58;
+    border-radius:22px;
+    background:#0b1a2b;
+}
+
+.title{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:16px;
+}
+
+.title h2{
+    font-size:21px;
+}
+
+.muted{
+    color:#91a9bf;
+}
+
+
+/* DATE */
+
+.dateBar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+    flex-wrap:wrap;
+    padding:18px;
+    margin-bottom:20px;
+    border:1px solid #203f58;
+    border-radius:20px;
+    background:#0b1a2b;
+}
+
+.dateButtons{
+    display:flex;
+    gap:8px;
+}
+
+.dateButton{
+    padding:11px 16px;
+    border:1px solid #294b67;
+    border-radius:11px;
+    color:#bdd0e1;
+    background:#071625;
+    cursor:pointer;
+}
+
+.dateButton.active{
+    color:#fff;
+    border-color:transparent;
+    background:linear-gradient(135deg,#159cff,#765cff);
+}
+
+
+/* CLASSES */
+
+.classGrid{
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    gap:9px;
+}
+
+.classButton{
+    padding:14px 8px;
+    border:1px solid #24445e;
+    border-radius:12px;
+    color:#bdd0e1;
+    background:#071625;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.classButton.active{
+    color:white;
+    border-color:transparent;
+    background:linear-gradient(135deg,#159cff,#765cff);
+}
+
+
+/* SUBJECTS */
+
+.subjectGrid{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:10px;
+}
+
+.subjectButton{
+    padding:15px 8px;
+    border:1px solid #294b67;
+    border-radius:12px;
+    color:#bdd0e1;
+    background:#071625;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.subjectButton.active{
+    color:#fff;
+    border-color:transparent;
+    background:linear-gradient(135deg,#159cff,#765cff);
+}
+
+
+/* SEARCH */
+
+.controls{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:15px;
+}
+
+.search,
+.gender{
+    padding:13px 15px;
+    border:1px solid #294b67;
+    border-radius:11px;
+    outline:none;
+    color:#fff;
+    background:#071625;
+}
+
+.search{
+    min-width:280px;
+}
+
+
+/* TABLE */
+
+.tableWrap{
+    overflow:auto;
+    border:1px solid #193950;
+    border-radius:15px;
+}
+
+table{
+    width:100%;
+    min-width:850px;
+    border-collapse:collapse;
+}
+
+th,
+td{
+    padding:14px;
+    border-bottom:1px solid #17344b;
+    text-align:left;
+}
+
+th{
+    color:#a9c1d6;
+    background:#0d2438;
+    font-size:13px;
+}
+
+td{
+    background:#071625;
+}
+
+.studentName{
+    font-weight:bold;
+}
+
+.studentGender{
+    margin-top:4px;
+    color:#91a9bf;
+    font-size:12px;
+}
+
+
+/* GRADE BUTTONS */
+
+.gradeButtons{
+    display:flex;
+    gap:7px;
+}
+
+.grade{
+    width:42px;
+    height:36px;
+    border-radius:8px;
+    color:#fff;
+    background:#091b2a;
+    border:1px solid #34556e;
+    cursor:pointer;
+    font-weight:bold;
+    transition:.2s;
+}
+
+.grade:hover{
+    transform:translateY(-2px);
+}
+
+.grade5{
+    border-color:#20d99b;
+}
+
+.grade4{
+    border-color:#3b9dff;
+}
+
+.grade3{
+    border-color:#ffc857;
+}
+
+.grade2{
+    border-color:#ff5874;
+}
+
+.grade.selected{
+    background:linear-gradient(135deg,#159cff,#765cff);
+    border-color:transparent;
+}
+
+
+/* ACTIVITY */
+
+.activity{
+    display:flex;
+    flex-direction:column;
+    gap:9px;
+}
+
+.activityRow{
+    display:grid;
+    grid-template-columns:90px 1fr 250px 60px;
+    gap:12px;
+    align-items:center;
+    padding:13px;
+    border:1px solid #193850;
+    border-radius:12px;
+    background:#071625;
+}
+
+.activityTime{
+    color:#42adff;
+    font-weight:bold;
+}
+
+.activityName b{
+    display:block;
+}
+
+.activityName small{
+    color:#91a9bf;
+}
+
+.activitySubject{
+    color:#bdd0e1;
+}
+
+.gradeBadge{
+    padding:8px;
+    border-radius:8px;
+    text-align:center;
+    color:#4ceab9;
+    background:#20d99b18;
+    font-weight:bold;
+}
+
+.empty{
+    padding:25px;
+    text-align:center;
+    color:#91a9bf;
+}
+
+
+/* SCHEDULE */
+
+.schedule{
+    display:grid;
+    grid-template-columns:repeat(6,1fr);
+    gap:10px;
+}
+
+.day{
+    min-height:220px;
+    padding:15px;
+    border:1px solid #203f58;
+    border-radius:17px;
+    background:#0b1a2b;
+}
+
+.day h3{
+    color:#52b0ff;
+    margin-bottom:11px;
+}
+
+.lesson{
+    padding:10px;
+    margin-bottom:8px;
+    border:1px solid #193850;
+    border-radius:9px;
+    background:#071625;
+    font-size:12px;
+}
+
+.lesson b{
+    display:block;
+    margin-bottom:4px;
+}
+
+.lesson span{
+    color:#91a9bf;
+}
+
+
+/* TOAST */
+
+#toast{
+    position:fixed;
+    right:20px;
+    bottom:20px;
+    z-index:99999;
+    padding:14px 18px;
+    border:1px solid #315876;
+    border-radius:13px;
+    background:#102a41;
+    opacity:0;
+    transform:translateY(80px);
+    transition:.3s;
+}
+
+#toast.show{
+    opacity:1;
+    transform:translateY(0);
+}
+
+
+/* MOBILE */
+
+@media(max-width:1100px){
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .classGrid{
+        grid-template-columns:repeat(5,1fr);
+    }
+
+    .subjectGrid{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+    .schedule{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:700px){
+
+    .header{
+        flex-wrap:wrap;
+    }
+
+    .clock{
+        width:100%;
+        order:3;
+    }
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .classGrid{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+    .subjectGrid{
+        grid-template-columns:1fr;
+    }
+
+    .schedule{
+        grid-template-columns:1fr;
+    }
+
+    .activityRow{
+        grid-template-columns:1fr 1fr;
+    }
+
+}
+
+
+/* ===== DAVOMAT ===== */
+.attendanceToolbar{display:flex;justify-content:flex-end;margin-top:16px}
+.attendanceOpen{padding:13px 20px;border:0;border-radius:12px;background:linear-gradient(135deg,#00c853,#159cff);color:#fff;font-weight:800;cursor:pointer;box-shadow:0 8px 25px #00c85333}
+.attendancePanel{display:none}
+.attendancePanel.open{display:block}
+.attendanceSummary{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:15px}
+.attendanceCard{padding:14px;border:1px solid #203f58;border-radius:14px;background:#071625;text-align:center}
+.attendanceCard strong{display:block;font-size:24px;margin-top:4px}
+.attendanceCard small{color:#91a9bf}
+.attendanceButtons{display:flex;gap:6px;flex-wrap:wrap}
+.attendanceButton{padding:9px 11px;border-radius:9px;border:1px solid #34556e;background:#091b2a;color:#fff;cursor:pointer;font-weight:700}
+.attendanceButton.active.keldi{background:#159c63;border-color:#20d99b}
+.attendanceButton.active.kelmadi{background:#c92b46;border-color:#ff5874}
+.attendanceButton.active.qochdi{background:#a66a00;border-color:#ffc857}
+.attendanceButton.active.dars{background:#765cff;border-color:#9b8cff}
+.attendanceStatus{font-weight:800;margin-top:4px;font-size:12px}
+.datePickerWrap{display:flex;align-items:center;gap:6px;padding:9px 12px;border:1px solid #34556e;border-radius:10px;background:#091b2a;color:#fff;font-weight:800}.datePickerWrap input{background:transparent;border:0;color:#fff;font-weight:700;outline:none;cursor:pointer}.datePickerWrap input::-webkit-calendar-picker-indicator{filter:invert(1);cursor:pointer}
+@media(max-width:900px){.attendanceSummary{grid-template-columns:repeat(2,1fr)}}
+
+
+/* ===== EXTRA JOURNAL PRO ===== */
+.calendarTools{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:14px}
+.calendarTools input,.calendarTools button,.reportBtn{padding:11px 14px;border:1px solid #294b67;border-radius:11px;background:#071625;color:#fff;cursor:pointer}
+.calendarTools input{color-scheme:dark}
+.reportGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.reportCard{padding:18px;border:1px solid #203f58;border-radius:16px;background:#071625}
+.reportCard strong{display:block;font-size:25px;margin-top:6px}
+.reportTable{margin-top:15px}
+@media(max-width:900px){.reportGrid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.reportGrid{grid-template-columns:1fr}}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- LOGIN -->
+
+<div id="loginScreen">
+
+<div class="loginBox">
+
+<div class="loginIcon">
+📚
+</div>
+
+<h1>
+Elektron Jurnal
+</h1>
+
+<p>
+O‘qituvchi tizimiga kirish
+</p>
+
+<input
+id="password"
+type="password"
+maxlength="4"
+inputmode="numeric"
+placeholder="••••"
+>
+
+<button
+class="loginButton"
+onclick="login()">
+
+🔐 Kirish
+
+</button>
+
+<div
+id="loginError"
+class="loginError">
+</div>
+
+</div>
+
+</div>
+
+
+<!-- APP -->
+
+<div id="app">
+
+
+<header>
+
+<div class="header">
+
+
+<div class="brand">
+
+<div class="logo">
+🎓
+</div>
+
+<div>
+
+<b>
+Elektron Jurnal
+</b>
+
+<small>
+5–11-sinflar
+</small>
+
+</div>
+
+</div>
+
+
+<div class="clock">
+
+<b id="clock">
+00:00:00
+</b>
+
+<div id="date">
+Sana
+</div>
+
+</div>
+
+
+<button
+class="logout"
+onclick="logout()">
+
+🚪 Chiqish
+
+</button>
+
+</div>
+
+</header>
+
+
+<main class="container">
+
+
+<!-- HERO -->
+
+<section class="hero">
+
+<h1>
+📚 Elektron Jurnal
+</h1>
+
+<p>
+Sinfni tanlang → bitta fanni tanlang → shu fandan barcha o‘quvchilarga baho qo‘ying.
+</p>
+
+<div class="teacher">
+
+👨‍🏫
+
+<b>
+Muslimbek Mashrabov Muzaffarivich
+</b>
+
+— Domla
+
+</div>
+
+</section>
+
+
+<!-- STATISTICS -->
+
+<section class="stats">
+
+
+<div class="stat">
+
+<div class="statIcon">
+🏫
+</div>
+
+<strong>
+21
+</strong>
+
+<span>
+Jami sinflar
+</span>
+
+</div>
+
+
+<div class="stat">
+
+<div class="statIcon">
+👨‍🎓
+</div>
+
+<strong id="studentCount">
+29
+</strong>
+
+<span>
+Tanlangan sinf o‘quvchilari
+</span>
+
+</div>
+
+
+<div class="stat">
+
+<div class="statIcon">
+📝
+</div>
+
+<strong id="gradeCount">
+0
+</strong>
+
+<span>
+Tanlangan kundagi baholar
+</span>
+
+</div>
+
+
+<div class="stat">
+
+<div class="statIcon">
+📚
+</div>
+
+<strong>
+5
+</strong>
+
+<span>
+Fanlar
+</span>
+
+</div>
+
+
+</section>
+
+
+<!-- DATE -->
+
+<section class="dateBar">
+
+<div>
+
+📅
+
+<b>
+Baholash sanasi:
+</b>
+
+<span id="selectedDate">
+</span>
+
+</div>
+
+
+<div class="dateButtons">
+<button id="todayButton" class="dateButton active" onclick="changeDay(0)">📅 Bugun</button>
+<button id="yesterdayButton" class="dateButton" onclick="changeDay(-1)">↩️ Kecha</button>
+<button class="dateButton" onclick="changeDay(-7)">📆 1 hafta</button>
+<button class="dateButton" onclick="changeDay(-30)">🗓️ 1 oy</button>
+<label class="datePickerWrap">📅 <input id="journalDatePicker" type="date" onchange="selectJournalDate(this.value)" aria-label="Jurnal sanasi"></label>
+</div>
+
+</section>
+
+
+<!-- CLASS -->
+
+<section class="panel">
+
+<div class="title">
+
+<h2>
+🏫 Sinfni tanlang
+</h2>
+
+<span
+class="muted">
+
+29 / 30 / 36 ta
+
+</span>
+
+</div>
+
+
+<div
+id="classGrid"
+class="classGrid">
+</div>
+
+</section>
+
+
+<!-- SUBJECT -->
+
+<section class="panel">
+
+<div class="title">
+
+<h2>
+📚 Bitta fanni tanlang
+</h2>
+
+<span
+class="muted">
+
+Tanlangan fan barcha o‘quvchilarga chiqadi
+
+</span>
+
+</div>
+
+
+<div
+id="subjectGrid"
+class="subjectGrid">
+</div>
+
+</section>
+
+
+<!-- JOURNAL -->
+
+<section class="panel">
+
+<div class="title">
+
+<h2 id="journalTitle">
+👨‍🎓 5A — Fizika
+</h2>
+
+<span
+id="classStudentLabel"
+class="muted">
+
+29 ta o‘quvchi
+
+</span>
+
+</div>
+
+
+<div class="controls">
+
+<input
+id="search"
+class="search"
+placeholder="🔎 Ism yoki familiya..."
+oninput="renderStudents()"
+>
+
+
+<select
+id="gender"
+class="gender"
+onchange="renderStudents()">
+
+<option value="all">
+👥 O‘g‘il + Qiz
+</option>
+
+<option value="boy">
+👦 O‘g‘il bolalar
+</option>
+
+<option value="girl">
+👧 Qizlar
+</option>
+
+</select>
+
+</div>
+
+
+<div class="tableWrap">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>
+#
+</th>
+
+<th>
+O‘quvchi ism-familiyasi
+</th>
+
+<th>
+Jinsi
+</th>
+
+<th id="subjectHeader">
+⚡ Fizika
+</th>
+
+<th>
+Baho
+</th>
+
+</tr>
+
+</thead>
+
+
+<tbody
+id="studentTable">
+</tbody>
+
+</table>
+
+<div class="attendanceToolbar">
+<button class="attendanceOpen" onclick="openAttendance()">📋 Davomatni ochish</button>
+</div>
+
+</div>
+
+</section>
+
+<!-- DAVOMAT -->
+<section class="panel attendancePanel" id="attendancePanel">
+  <div class="title">
+    <h2>📋 <span id="attendanceTitle">Davomat</span></h2>
+    <span class="muted">Tanlangan sinf · tanlangan sana</span>
+  </div>
+  <div class="attendanceSummary">
+    <div class="attendanceCard">🟢<strong id="attKeldi">0</strong><small>Keldi</small></div>
+    <div class="attendanceCard">🔴<strong id="attKelmadi">0</strong><small>Kelmadi</small></div>
+    <div class="attendanceCard">🟡<strong id="attQochdi">0</strong><small>Qochdi</small></div>
+    <div class="attendanceCard">🟣<strong id="attDars">0</strong><small>Darsga kirmadi</small></div>
+    <div class="attendanceCard">📊<strong id="attPercent">0%</strong><small>Davomat</small></div>
+  </div>
+  <div class="tableWrap">
+    <table>
+      <thead><tr><th>#</th><th>O‘quvchi</th><th>Jinsi</th><th>Davomat holati</th></tr></thead>
+      <tbody id="attendanceTable"></tbody>
+    </table>
+  </div>
+</section>
+
+
+<!-- PRO DATE & REPORTS -->
+<section class="panel">
+ <div class="title"><h2>📅 Sana va hisobot</h2><span class="muted">12 oylik tarix</span></div>
+ <div class="calendarTools">
+  <button onclick="pickRelative(-1)">⬅️ Kecha</button>
+  <button onclick="pickRelative(0)">📅 Bugun</button>
+  <button onclick="pickRelative(-7)">↩️ 1 hafta oldin</button>
+  <button onclick="pickRelative(-30)">🗓️ 1 oy oldin</button>
+  <input id="journalDatePicker" type="date" onchange="pickDate(this.value)">
+  <button onclick="resetDateToToday()">🔄 Bugungi sana</button>
+ </div>
+ <div class="muted" style="margin-top:10px">Tanlangan sana: <b id="proSelectedDate"></b></div>
+</section>
+<section class="panel">
+ <div class="title"><h2>📊 O‘zlashtirish hisoboti</h2><button class="reportBtn" onclick="printReport()">🖨️ Chop etish</button></div>
+ <div class="reportGrid">
+  <div class="reportCard">👨‍🎓 <strong id="rStudents">0</strong><span class="muted">Sinf o‘quvchilari</span></div>
+  <div class="reportCard">⭐ <strong id="rAverage">0</strong><span class="muted">O‘rtacha baho</span></div>
+  <div class="reportCard">🏆 <strong id="rBest">—</strong><span class="muted">Eng yaxshi o‘quvchi</span></div>
+  <div class="reportCard">⚠️ <strong id="rLow">0</strong><span class="muted">Past baholar (2–3)</span></div>
+ </div>
+ <div class="tableWrap reportTable"><table><thead><tr><th>#</th><th>O‘quvchi</th><th>Jinsi</th><th>Tanlangan fan</th><th>Baho</th></tr></thead><tbody id="reportTable"></tbody></table></div>
+</section>
+
+<!-- TODAY GRADES -->
+
+<section class="panel">
+
+<div class="title">
+
+<h2>
+
+📋
+
+<span id="activityTitle">
+Bugun
+</span>
+
+kimlarga baho qo‘yildi?
+
+</h2>
+
+<span
+class="muted">
+
+Sana · vaqt · fan · baho
+
+</span>
+
+</div>
+
+
+<div
+id="activity"
+class="activity">
+</div>
+
+</section>
+
+
+<!-- SCHEDULE -->
+
+<section class="panel">
+
+<div class="title">
+
+<h2>
+🗓 Haftalik dars jadvali
+</h2>
+
+</div>
+
+
+<div
+id="schedule"
+class="schedule">
+</div>
+
+</section>
+
+
+</main>
+
+</div>
+
+
+<div id="toast">
+</div>
+
+
+<script>
+
+/* ==========================================
+   PAROL
+========================================== */
+
+const PASSWORD="2099";
+
+
+/* ==========================================
+   5 TA FAN
+========================================== */
+
+const SUBJECTS=[
+
+{
+name:"Fizika",
+icon:"⚡"
+},
+
+{
+name:"Huquq",
+icon:"⚖️"
+},
+
+{
+name:"Geografiya",
+icon:"🌍"
+},
+
+{
+name:"Milliy istiqlol g‘oyasi",
+icon:"🇺🇿"
+},
+
+{
+name:"Matematika",
+icon:"📐"
+}
+
+];
+
+
+/* ==========================================
+   21 TA SINF
+========================================== */
+
+const CLASSES=[];
+
+for(
+let grade=5;
+grade<=11;
+grade++
+){
+
+["A","B","V"].forEach(
+letter=>{
+
+CLASSES.push(
+grade+letter
+);
+
+});
+
+}
+
+
+/* ==========================================
+   ISMLAR
+========================================== */
+
+const BOYS=["Abdulloh","Akmal","Ali","Aziz","Bekzod","Bobur","Diyor","Elyor","Farrux","Hamza","Hasan","Husan","Ibrohim","Islom","Jasur","Javohir","Kamron","Laziz","Murod","Muhammad","Nodir","Olim","Oybek","Qodir","Rustam","Sardor","Shahzod","Sherzod","Temur","Zafar","Anvar","Jahongir","Mirjalol","Shoxrux","Ulug‘bek","Sanjar","Umid","Xurshid","Doniyor","Fozil","Azim","Asadbek","Behruz","Davron","Dilshod","Imron","Javlon"];
+
+
+const GIRLS=["Adiba","Aziza","Dilafruz","Dildora","Farangiz","Feruza","Gulbahor","Gulnoza","Iroda","Jasmina","Laylo","Madina","Malika","Maftuna","Mohira","Munisa","Muslima","Nafisa","Nilufar","Nozima","Rayhona","Robiya","Sabina","Saida","Sevinch","Shahnoza","Shahzoda","Shirin","Sitora","Zilola","Zarina","Marjona","Mehribon","Nigina","Nasiba","Rano","Shahlo","Umida","Yulduz","Asal","Aylin","Diyora","Imona","Mubina","Rayona","Zebo"];
+
+
+const LAST_NAMES=["Karimov","Tursunov","Abdullayev","Rahimov","Yusupov","Ergashev","Saidov","Qodirov","Usmonov","Mahmudov","Sobirov","Hasanov","Rasulov","Nazarov","Jo‘rayev","Aliyev","Sattorov","Olimov","Mamatov","Yoqubov","Xolmatov","Salimov","Vohidov","Rustamov","Tojiboyev","Komilov","Mirzayev","Ismoilov","Shukurov","Valiyev","Raximov","Jabborov","Nurmatov","Botirov","Abduqodirov","Soliev","Xudoyberdiyev","Qosimov","Mansurov","Ortiqov"];
+
+
+/* ==========================================
+   HAR BIR SINF UCHUN TURFA SON
+========================================== */
+
+const STUDENT_COUNTS=[
+
+29,30,36,
+30,29,36,
+36,29,30,
+29,36,30,
+30,36,29,
+36,30,29,
+29,30,36
+
+];
+
+
+/* ==========================================
+   O‘QUVCHILARNI YARATISH
+========================================== */
+
+function femaleSurname(s){
+const m={"Karimov":"Karimova","Tursunov":"Tursunova","Abdullayev":"Abdullayeva","Rahimov":"Rahimova","Yusupov":"Yusupova","Ergashev":"Ergasheva","Saidov":"Saidova","Qodirov":"Qodirova","Usmonov":"Usmonova","Mahmudov":"Mahmudova","Sobirov":"Sobirova","Hasanov":"Hasanova","Rasulov":"Rasulova","Nazarov":"Nazarova","Jo‘rayev":"Jo‘rayeva","Aliyev":"Aliyeva","Sattorov":"Sattorova","Olimov":"Olimova","Mamatov":"Mamatova","Yoqubov":"Yoqubova","Xolmatov":"Xolmatova","Salimov":"Salimova","Vohidov":"Vohidova","Rustamov":"Rustamova","Tojiboyev":"Tojiboyeva","Komilov":"Komilova","Mirzayev":"Mirzayeva","Ismoilov":"Ismoilova","Shukurov":"Shukurova","Valiyev":"Valiyeva","Raximov":"Raximova","Jabborov":"Jabborova","Nurmatov":"Nurmatova","Botirov":"Botirova","Abduqodirov":"Abduqodirova","Soliev":"Soliyeva","Xudoyberdiyev":"Xudoyberdiyeva","Qosimov":"Qosimova","Mansurov":"Mansurova","Ortiqov":"Ortiqova"};
+if(m[s]) return m[s];
+if(/ov$/i.test(s)) return s.replace(/ov$/i,"ova");
+if(/yev$/i.test(s)) return s.replace(/yev$/i,"yeva");
+if(/ev$/i.test(s)) return s.replace(/ev$/i,"eva");
+return s.endsWith("a") ? s : s+"a";
+}
+function createStudents(){
+
+let result=[];
+
+
+CLASSES.forEach(
+(className,classIndex)=>{
+
+let count=
+STUDENT_COUNTS[
+classIndex
+% STUDENT_COUNTS.length
+];
+
+
+let boysCount=
+Math.ceil(count/2);
+
+
+for(
+let i=0;
+i<count;
+i++
+){
+
+let isBoy=
+i<boysCount;
+
+
+let pool=
+isBoy
+?
+BOYS
+:
+GIRLS;
+
+
+/*
+Har bir sinfda ism
+boshlanish nuqtasi boshqacha.
+*/
+
+let firstIndex=
+(
+i+
+classIndex*7
++
+Math.floor(
+i/pool.length
+)*3
+)
+%pool.length;
+
+
+let lastIndex=
+(
+i*3+
+classIndex*11
++
+Math.floor(
+i/LAST_NAMES.length
+)*5
+)
+%LAST_NAMES.length;
+
+
+let student={
+
+id:
+className+
+"-"+
+(i+1),
+
+className:
+className,
+
+name:
+pool[firstIndex]+
+" "+
+(isBoy ? LAST_NAMES[lastIndex] : femaleSurname(LAST_NAMES[lastIndex])),
+
+gender:
+isBoy
+?
+"boy"
+:
+"girl",
+
+grades:{}
+
+};
+
+
+result.push(student);
+
+}
+
+});
+
+
+return result;
+
+}
+
+
+/* ==========================================
+   STORAGE
+========================================== */
+
+let students=
+JSON.parse(
+localStorage.getItem(
+"journal_students_v3_modern_qizlar"
+)
+)
+||
+createStudents();
+
+
+let gradeLogs=
+JSON.parse(
+localStorage.getItem(
+"journal_grade_logs"
+)
+)
+||
+[];
+
+
+let selectedClass=
+localStorage.getItem(
+"journal_class"
+)
+||
+"5A";
+
+
+let selectedSubject=
+localStorage.getItem(
+"journal_subject"
+)
+||
+"Fizika";
+
+
+let selectedDay=0;
+
+
+/* ==========================================
+   SAVE
+========================================== */
+
+function saveData(){
+
+localStorage.setItem(
+"journal_students_v3_modern_qizlar",
+JSON.stringify(
+students
+)
+);
+
+localStorage.setItem(
+"journal_grade_logs",
+JSON.stringify(
+gradeLogs
+)
+);
+
+}
+
+
+/* ==========================================
+   DATE KEY
+========================================== */
+
+function getDateKey(
+offset=0
+){
+
+let d=
+new Date();
+
+d.setDate(
+d.getDate()+offset
+);
+
+
+return [
+
+d.getFullYear(),
+
+String(
+d.getMonth()+1
+).padStart(2,"0"),
+
+String(
+d.getDate()
+).padStart(2,"0")
+
+].join("-");
+
+}
+
+
+/* ==========================================
+   TO‘LIQ SANA
+========================================== */
+
+function getFullDate(
+offset=0
+){
+
+let d=
+new Date();
+
+d.setDate(
+d.getDate()+offset
+);
+
+
+return d.toLocaleDateString(
+"uz-UZ",
+{
+weekday:"long",
+year:"numeric",
+month:"long",
+day:"numeric"
+}
+);
+
+}
+
+
+/* ==========================================
+   LOGIN
+========================================== */
+
+function login(){
+
+let pass=
+document.getElementById(
+"password"
+).value;
+
+
+if(
+pass===PASSWORD
+){
+
+sessionStorage.setItem(
+"journal_login",
+"1"
+);
+
+
+document.getElementById(
+"loginScreen"
+).style.display="none";
+
+
+document.getElementById(
+"app"
+).style.display="block";
+
+
+init();
+
+}
+
+else{
+
+document.getElementById(
+"loginError"
+).textContent=
+"❌ Parol noto‘g‘ri!";
+
+
+document.getElementById(
+"password"
+).value="";
+
+}
+
+}
+
+
+document
+.getElementById(
+"password"
+)
+.addEventListener(
+"keydown",
+function(e){
+
+if(
+e.key==="Enter"
+){
+
+login();
+
+}
+
+});
+
+
+/* ==========================================
+   LOGOUT
+========================================== */
+
+function logout(){
+
+sessionStorage.removeItem(
+"journal_login"
+);
+
+location.reload();
+
+}
+
+
+/* ==========================================
+   CLOCK
+========================================== */
+
+function updateClock(){
+
+let now=
+new Date();
+
+
+document.getElementById(
+"clock"
+).textContent=
+now.toLocaleTimeString(
+"uz-UZ"
+);
+
+
+document.getElementById(
+"date"
+).textContent=
+getFullDate(0);
+
+}
+
+
+setInterval(
+updateClock,
+1000
+);
+
+
+/* ==========================================
+   BUGUN / KECHA
+========================================== */
+
+function changeDay(
+offset
+){
+
+selectedDay=
+offset;
+
+
+document
+.getElementById(
+"todayButton"
+)
+.classList
+.toggle(
+"active",
+offset===0
+);
+
+
+document
+.getElementById(
+"yesterdayButton"
+)
+.classList
+.toggle(
+"active",
+offset===-1
+);
+
+
+document.getElementById(
+"selectedDate"
+).textContent=
+getFullDate(
+offset
+);
+
+syncDatePicker();
+
+
+document.getElementById(
+"activityTitle"
+).textContent=
+offset===0
+?
+"Bugun"
+:
+"Kecha";
+
+
+renderStudents();
+
+renderActivity();
+
+}
+
+
+/* ==========================================
+   ISTALGAN SANANI TANLASH
+   Bugun va oldingi 12 oy ichidagi sanalarga baho qo‘yish mumkin.
+========================================== */
+function selectJournalDate(value){
+  if(!value)return;
+  const chosen=new Date(value+'T00:00:00');
+  const today=new Date(); today.setHours(0,0,0,0);
+  const minDate=new Date(today); minDate.setFullYear(minDate.getFullYear()-1);
+  if(chosen < minDate){ showToast('⚠️ Faqat oxirgi 12 oy ichidagi sana tanlanadi.'); syncDatePicker(); return; }
+  if(chosen > today){ showToast('⚠️ Kelajak sanasiga baho qo‘yib bo‘lmaydi.'); syncDatePicker(); return; }
+  selectedDay=Math.round((chosen-today)/86400000);
+  changeDay(selectedDay);
+}
+
+function syncDatePicker(){
+  const input=document.getElementById('journalDatePicker'); if(!input)return;
+  const d=new Date(); d.setDate(d.getDate()+selectedDay);
+  input.value=[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-');
+  const today=new Date(); today.setHours(0,0,0,0);
+  const minDate=new Date(today); minDate.setFullYear(minDate.getFullYear()-1);
+  input.min=[minDate.getFullYear(),String(minDate.getMonth()+1).padStart(2,'0'),String(minDate.getDate()).padStart(2,'0')].join('-');
+  input.max=[today.getFullYear(),String(today.getMonth()+1).padStart(2,'0'),String(today.getDate()).padStart(2,'0')].join('-');
+}
+
+/* ==========================================
+   SINFLAR
+========================================== */
+
+function renderClasses(){
+
+let box=
+document.getElementById(
+"classGrid"
+);
+
+
+box.innerHTML="";
+
+
+CLASSES.forEach(
+className=>{
+
+let button=
+document.createElement(
+"button"
+);
+
+
+button.className=
+"classButton "+
+(
+className===
+selectedClass
+?
+"active"
+:
+""
+);
+
+
+button.textContent=
+className;
+
+
+button.onclick=
+function(){
+
+selectedClass=
+className;
+
+
+localStorage.setItem(
+"journal_class",
+selectedClass
+);
+
+
+renderClasses();
+
+renderStudents();
+
+};
+
+
+box.appendChild(
+button
+);
+
+});
+
+}
+
+
+/* ==========================================
+   FANLAR
+========================================== */
+
+function renderSubjects(){
+
+let box=
+document.getElementById(
+"subjectGrid"
+);
+
+
+box.innerHTML="";
+
+
+SUBJECTS.forEach(
+subject=>{
+
+let button=
+document.createElement(
+"button"
+);
+
+
+button.className=
+"subjectButton "+
+(
+subject.name===
+selectedSubject
+?
+"active"
+:
+""
+);
+
+
+button.textContent=
+subject.icon+
+" "+
+subject.name;
+
+
+button.onclick=
+function(){
+
+selectedSubject=
+subject.name;
+
+
+localStorage.setItem(
+"journal_subject",
+selectedSubject
+);
+
+
+renderSubjects();
+
+renderStudents();
+
+};
+
+
+box.appendChild(
+button
+);
+
+});
+
+}
+
+
+/* ==========================================
+   O‘QUVCHILAR
+========================================== */
+
+function renderStudents(){
+
+let search=
+document.getElementById(
+"search"
+).value
+.toLowerCase();
+
+
+let gender=
+document.getElementById(
+"gender"
+).value;
+
+
+let date=
+getDateKey(
+selectedDay
+);
+
+
+let allStudents=
+students.filter(
+x=>
+x.className===
+selectedClass
+);
+
+
+let list=
+allStudents.filter(
+student=>
+
+(
+gender==="all" ||
+student.gender===
+gender
+)
+
+&&
+
+student.name
+.toLowerCase()
+.includes(
+search
+)
+
+);
+
+
+document.getElementById(
+"studentCount"
+).textContent=
+allStudents.length;
+
+
+document.getElementById(
+"classStudentLabel"
+).textContent=
+allStudents.length+
+" ta o‘quvchi";
+
+
+document.getElementById(
+"journalTitle"
+).textContent=
+"👨‍🎓 "+
+selectedClass+
+" — "+
+selectedSubject;
+
+
+let subjectInfo=
+SUBJECTS.find(
+x=>
+x.name===
+selectedSubject
+);
+
+
+document.getElementById(
+"subjectHeader"
+).textContent=
+subjectInfo.icon+
+" "+
+selectedSubject;
+
+
+let tbody=
+document.getElementById(
+"studentTable"
+);
+
+
+tbody.innerHTML="";
+
+
+list.forEach(
+(student,index)=>{
+
+let currentGrade=
+student
+.grades
+?.[selectedSubject]
+?.[date]
+||
+"";
+
+
+let tr=
+document.createElement(
+"tr"
+);
+
+
+tr.innerHTML=`
+
+<td>
+${index+1}
+</td>
+
+<td>
+
+<div class="studentName">
+
+${
+student.gender===
+"boy"
+?
+"👦"
+:
+"👧"
+}
+
+${student.name}
+
+</div>
+
+</td>
+
+
+<td>
+
+${
+student.gender===
+"boy"
+?
+"👦 O‘g‘il bola"
+:
+"👧 Qiz bola"
+}
+
+</td>
+
+
+<td>
+
+${subjectInfo.icon}
+
+${selectedSubject}
+
+</td>
+
+
+<td>
+
+<div class="gradeButtons">
+
+<button
+class="
+grade
+grade5
+${currentGrade==5?"selected":""}
+"
+onclick="
+setGrade(
+'${student.id}',
+5
+)
+">
+
+5
+
+</button>
+
+
+<button
+class="
+grade
+grade4
+${currentGrade==4?"selected":""}
+"
+onclick="
+setGrade(
+'${student.id}',
+4
+)
+">
+
+4
+
+</button>
+
+
+<button
+class="
+grade
+grade3
+${currentGrade==3?"selected":""}
+"
+onclick="
+setGrade(
+'${student.id}',
+3
+)
+">
+
+3
+
+</button>
+
+
+<button
+class="
+grade
+grade2
+${currentGrade==2?"selected":""}
+"
+onclick="
+setGrade(
+'${student.id}',
+2
+)
+">
+
+2
+
+</button>
+
+</div>
+
+</td>
+
+`;
+
+
+tbody.appendChild(
+tr
+);
+
+});
+
+
+document.getElementById(
+"gradeCount"
+).textContent=
+gradeLogs.filter(
+x=>
+x.date===
+date
+).length;
+
+}
+
+
+/* ==========================================
+   BAHO QO‘YISH
+========================================== */
+
+function setGrade(
+studentId,
+grade
+){
+
+let student=
+students.find(
+x=>
+x.id===
+studentId
+);
+
+
+if(!student)
+return;
+
+
+let date=
+getDateKey(
+selectedDay
+);
+
+
+if(
+!student.grades[
+selectedSubject
+]
+){
+
+student.grades[
+selectedSubject
+]={};
+
+}
+
+
+student.grades[
+selectedSubject
+][date]=
+grade;
+
+
+/*
+Bir o‘quvchi + bir fan +
+bir sana uchun bitta
+eng oxirgi baho saqlanadi.
+*/
+
+gradeLogs=
+gradeLogs.filter(
+x=>
+
+!(
+x.date===
+date
+
+&&
+
+x.studentId===
+studentId
+
+&&
+
+x.subject===
+selectedSubject
+)
+
+);
+
+
+gradeLogs.push({
+
+id:
+Date.now(),
+
+date:
+date,
+
+time:
+new Date()
+.toLocaleTimeString(
+"uz-UZ"
+),
+
+studentId:
+student.id,
+
+student:
+student.name,
+
+className:
+student.className,
+
+gender:
+student.gender,
+
+subject:
+selectedSubject,
+
+grade:
+grade
+
+});
+
+
+saveData();
+
+renderStudents();
+
+renderActivity();
+
+
+showToast(
+"✅ "+
+student.name+
+" — "+
+selectedSubject+
+": "+
+grade
+);
+
+}
+
+
+/* ==========================================
+   BAHO QO‘YILGANLAR
+========================================== */
+
+function renderActivity(){
+
+let date=
+getDateKey(
+selectedDay
+);
+
+
+let list=
+gradeLogs
+.filter(
+x=>
+x.date===
+date
+)
+.sort(
+(a,b)=>
+b.id-a.id
+);
+
+
+document.getElementById(
+"gradeCount"
+).textContent=
+list.length;
+
+
+let box=
+document.getElementById(
+"activity"
+);
+
+
+if(
+list.length===0
+){
+
+box.innerHTML=`
+
+<div class="empty">
+
+📭
+
+${
+selectedDay===0
+?
+"Bugun"
+:
+"Kecha"
+}
+
+hali baho qo‘yilmagan.
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+box.innerHTML=
+list
+.map(
+item=>`
+
+<div class="activityRow">
+
+<div class="activityTime">
+
+🕐
+
+${item.time}
+
+</div>
+
+
+<div class="activityName">
+
+<b>
+
+${
+item.gender==="boy"
+?
+"👦"
+:
+"👧"
+}
+
+${item.student}
+
+</b>
+
+<small>
+
+🏫
+${item.className}
+
+</small>
+
+</div>
+
+
+<div class="activitySubject">
+
+${
+SUBJECTS.find(
+s=>
+s.name===
+item.subject
+)?.icon
+||
+"📚"
+}
+
+${item.subject}
+
+</div>
+
+
+<div class="gradeBadge">
+
+${item.grade}
+
+</div>
+
+</div>
+
+`
+)
+.join("");
+
+}
+
+
+/* ==========================================
+   HAFTALIK JADVAL
+========================================== */
+
+const schedule={
+
+"Dushanba":[
+
+["1","Fizika","7A"],
+["2","Geografiya","6B"],
+["3","Milliy istiqlol g‘oyasi","9A"],
+["4","Huquq","10B"],
+["5","Matematika","8V"]
+
+],
+
+"Seshanba":[
+
+["1","Geografiya","5A"],
+["2","Fizika","8A"],
+["3","Huquq","11A"],
+["4","Milliy istiqlol g‘oyasi","10V"],
+["5","Matematika","6A"]
+
+],
+
+"Chorshanba":[
+
+["1","Fizika","6V"],
+["2","Geografiya","7B"],
+["3","Milliy istiqlol g‘oyasi","9B"],
+["4","Fizika","11V"],
+["5","Matematika","10A"]
+
+],
+
+"Payshanba":[
+
+["1","Geografiya","5V"],
+["2","Fizika","7V"],
+["3","Huquq","8B"],
+["4","Milliy istiqlol g‘oyasi","9V"],
+["5","Geografiya","11B"]
+
+],
+
+"Juma":[
+
+["1","Fizika","5B"],
+["2","Geografiya","6A"],
+["3","Huquq","10A"],
+["4","Milliy istiqlol g‘oyasi","8V"],
+["5","Matematika","11A"]
+
+],
+
+"Shanba":[
+
+["1","Geografiya","7A"],
+["2","Fizika","9B"],
+["3","Huquq","11B"],
+["4","Milliy istiqlol g‘oyasi","7V"]
+
+]
+
+};
+
+
+/* ==========================================
+   JADVALNI CHIQARISH
+========================================== */
+
+function renderSchedule(){
+
+let box=
+document.getElementById(
+"schedule"
+);
+
+
+box.innerHTML="";
+
+
+Object.entries(
+schedule
+)
+.forEach(
+([day,lessons])=>{
+
+let dayBox=
+document.createElement(
+"div"
+);
+
+
+dayBox.className=
+"day";
+
+
+dayBox.innerHTML=
+`
+<h3>
+📅 ${day}
+</h3>
+`;
+
+
+lessons.forEach(
+lesson=>{
+
+let info=
+SUBJECTS.find(
+x=>
+x.name===
+lesson[1]
+);
+
+
+let div=
+document.createElement(
+"div"
+);
+
+
+div.className=
+"lesson";
+
+
+div.innerHTML=`
+
+<b>
+
+${lesson[0]}-dars
+
+·
+
+${
+info
+?.icon
+||
+"📚"
+}
+
+${lesson[1]}
+
+</b>
+
+<span>
+
+🏫
+${lesson[2]}
+
+</span>
+
+`;
+
+
+dayBox.appendChild(
+div
+);
+
+});
+
+
+box.appendChild(
+dayBox
+);
+
+});
+
+}
+
+
+/* ==========================================
+   TOAST
+========================================== */
+
+let toastTimer;
+
+
+function showToast(
+message
+){
+
+let toast=
+document.getElementById(
+"toast"
+);
+
+
+toast.textContent=
+message;
+
+
+toast.classList.add(
+"show"
+);
+
+
+clearTimeout(
+toastTimer
+);
+
+
+toastTimer=
+setTimeout(
+function(){
+
+toast.classList.remove(
+"show"
+);
+
+},
+2300
+);
+
+}
+
+
+/* ==========================================
+   INIT
+========================================== */
+
+function init(){
+
+updateClock();
+
+document.getElementById(
+"selectedDate"
+).textContent=
+getFullDate(0);
+
+renderClasses();
+
+renderSubjects();
+
+renderStudents();
+
+renderActivity();
+
+renderSchedule();
+
+}
+
+
+/* ==========================================
+   AUTO LOGIN
+========================================== */
+
+if(
+sessionStorage.getItem(
+"journal_login"
+)==="1"
+){
+
+document.getElementById(
+"loginScreen"
+).style.display=
+"none";
+
+
+document.getElementById(
+"app"
+).style.display=
+"block";
+
+
+init();
+
+}
+
+
+
+const _changeDayOriginal=changeDay;
+changeDay=function(offset){_changeDayOriginal(offset);let key=getDateKey(offset);document.getElementById("journalDatePicker").value=key;document.getElementById("proSelectedDate").textContent=new Date(key+"T12:00:00").toLocaleDateString("uz-UZ",{weekday:"long",year:"numeric",month:"long",day:"numeric"});renderReport();};
+
+/* ===== DAVOMAT TIZIMI ===== */
+let attendanceData=JSON.parse(localStorage.getItem("journal_attendance_v1")||"{}");
+
+function attendanceKey(studentId,date){return studentId+"__"+date;}
+
+function saveAttendance(){localStorage.setItem("journal_attendance_v1",JSON.stringify(attendanceData));}
+
+function openAttendance(){
+  document.getElementById("attendancePanel").classList.add("open");
+  renderAttendance();
+  document.getElementById("attendancePanel").scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+function setAttendance(studentId,status){
+  let date=getDateKey(selectedDay);
+  let student=students.find(x=>x.id===studentId);
+  if(!student)return;
+  attendanceData[attendanceKey(studentId,date)]=status;
+  saveAttendance();
+  renderAttendance();
+  showToast("📋 "+student.name+" — "+status);
+}
+
+function renderAttendance(){
+  let date=getDateKey(selectedDay);
+  let list=students.filter(x=>x.className===selectedClass);
+  document.getElementById("attendanceTitle").textContent=selectedClass+" — Davomat";
+  let tbody=document.getElementById("attendanceTable");
+  if(!tbody)return;
+  tbody.innerHTML=list.map((student,index)=>{
+    let status=attendanceData[attendanceKey(student.id,date)]||"";
+    let icon=student.gender==="boy"?"👦":"👧";
+    return `<tr>
+      <td>${index+1}</td>
+      <td><div class="studentName">${icon} ${student.name}</div></td>
+      <td>${icon} ${student.gender==="boy"?"O‘g‘il bola":"Qiz bola"}</td>
+      <td><div class="attendanceButtons">
+        <button class="attendanceButton keldi ${status==='Keldi'?'active':''}" onclick="setAttendance('${student.id}','Keldi')">🟢 Keldi</button>
+        <button class="attendanceButton kelmadi ${status==='Kelmadi'?'active':''}" onclick="setAttendance('${student.id}','Kelmadi')">🔴 Kelmadi</button>
+        <button class="attendanceButton qochdi ${status==='Qochdi'?'active':''}" onclick="setAttendance('${student.id}','Qochdi')">🟡 Qochdi</button>
+        <button class="attendanceButton dars ${status==='Darsga kirmadi'?'active':''}" onclick="setAttendance('${student.id}','Darsga kirmadi')">🟣 Darsga kirmadi</button>
+      </div><div class="attendanceStatus">${status?"Holat: "+status:"Holat belgilanmagan"}</div></td>
+    </tr>`;
+  }).join("");
+  let counts={Keldi:0,Kelmadi:0,Qochdi:0,"Darsga kirmadi":0};
+  list.forEach(st=>{let v=attendanceData[attendanceKey(st.id,date)];if(v)counts[v]++;});
+  document.getElementById("attKeldi").textContent=counts.Keldi;
+  document.getElementById("attKelmadi").textContent=counts.Kelmadi;
+  document.getElementById("attQochdi").textContent=counts.Qochdi;
+  document.getElementById("attDars").textContent=counts["Darsga kirmadi"];
+  document.getElementById("attPercent").textContent=list.length?Math.round(counts.Keldi/list.length*100)+"%":"0%";
+}
+
+// Sinf yoki sana o‘zgarganda ochiq davomat jadvalini ham yangilash
+const _renderClasses=renderClasses;
+renderClasses=function(){_renderClasses();if(document.getElementById("attendancePanel")?.classList.contains("open"))renderAttendance();};
+const _changeDay=changeDay;
+changeDay=function(offset){_changeDay(offset);if(document.getElementById("attendancePanel")?.classList.contains("open"))renderAttendance();};
+
+
+/* ===== PRO DATE / REPORT / PRINT ===== */
+function formatISODate(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+function dateOffsetFromToday(off){let d=new Date();d.setDate(d.getDate()+off);return formatISODate(d);}
+function applyDateKey(key){
+ const d=new Date(key+"T12:00:00"); const today=new Date(); today.setHours(12,0,0,0);
+ const diff=Math.round((d-today)/86400000); selectedDay=diff;
+ document.getElementById("journalDatePicker").value=key;
+ document.getElementById("proSelectedDate").textContent=d.toLocaleDateString("uz-UZ",{weekday:"long",year:"numeric",month:"long",day:"numeric"});
+ document.getElementById("selectedDate").textContent=getFullDate(diff);
+ document.getElementById("todayButton").classList.toggle("active",diff===0);
+ document.getElementById("yesterdayButton").classList.toggle("active",diff===-1);
+ renderStudents(); renderActivity(); if(document.getElementById("attendancePanel")?.classList.contains("open"))renderAttendance(); renderReport();
+}
+function pickDate(v){if(!v)return; applyDateKey(v);}
+function pickRelative(off){applyDateKey(dateOffsetFromToday(off));}
+function resetDateToToday(){pickRelative(0);}
+function renderReport(){
+ let date=getDateKey(selectedDay), list=students.filter(x=>x.className===selectedClass), rows=[],sum=0,count=0,low=0,best=null,bestGrade=-1;
+ list.forEach(st=>{let g=st.grades?.[selectedSubject]?.[date]||""; if(g){g=Number(g);sum+=g;count++;if(g<=3)low++;if(g>bestGrade){bestGrade=g;best=st.name;}} rows.push({st,g});});
+ document.getElementById("rStudents").textContent=list.length; document.getElementById("rAverage").textContent=count?(sum/count).toFixed(2):"0"; document.getElementById("rBest").textContent=best||"—"; document.getElementById("rLow").textContent=low;
+ document.getElementById("reportTable").innerHTML=rows.map((x,i)=>`<tr><td>${i+1}</td><td>${x.st.gender==="boy"?"👦":"👧"} ${x.st.name}</td><td>${x.st.gender==="boy"?"O‘g‘il bola":"Qiz bola"}</td><td>${selectedSubject}</td><td><b>${x.g||"—"}</b></td></tr>`).join("");
+}
+function printReport(){
+ let title=`${selectedClass} — ${selectedSubject} — ${getFullDate(selectedDay)}`; let w=window.open("","_blank"); if(!w)return;
+ w.document.write(`<html><head><title>Elektron jurnal</title><style>body{font-family:Arial;padding:30px}table{width:100%;border-collapse:collapse}th,td{border:1px solid #999;padding:8px;text-align:left}h1{margin-bottom:5px}</style></head><body><h1>📚 Elektron jurnal</h1><p>${title}</p>${document.querySelector("#reportTable").parentElement.outerHTML}
+</body></html>`); w.document.close(); w.print();
+}
+
+
+const _renderStudentsOriginal=renderStudents;
+renderStudents=function(){_renderStudentsOriginal(); if(document.getElementById("reportTable"))renderReport();};
+const _renderSubjectsOriginal=renderSubjects;
+renderSubjects=function(){_renderSubjectsOriginal(); if(document.getElementById("reportTable"))renderReport();};
+</script>
+
+
+</body>
+</html>
